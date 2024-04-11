@@ -1,0 +1,57 @@
+\documentclass{article}
+\usepackage{amsmath}
+\begin{document}
+
+\section*{Introduction}
+In addressing homelessness with limited resources, it is crucial to optimize the allocation of housing interventions to maximize successful exits from homelessness. However, ensuring fairness is equally important to prevent any disproportionate benefit or disadvantage to specific sub-populations. Thus, our optimization model integrates fairness by adjusting resource distribution across various groups, aligning with the dual objectives of maximizing efficiency and promoting equity. 
+This approach aims to enhance the effectiveness and fairness of the homeless response system, reflecting a balanced consideration of both outcomes and equity.
+\section*{Procedure for Optimization Including Fairness Weight}
+
+\begin{enumerate}
+  \item \textbf{Problem Understanding and Data Collection:}
+  \begin{itemize}
+    \item Collect data on households requiring housing services, including IDs, enrollment dates, sub-population identifiers, and probabilities of exiting homelessness under different interventions.
+    \item Gather information on the weekly availability of various housing intervention types.
+  \end{itemize}
+
+  \item \textbf{Optimization Setup:}
+  \begin{itemize}
+    \item Define $x_{ijt}$ as an indicator variable that represents whether household $i$ in week $t$ is assigned intervention $j$.
+    \item Use $p_{ijt}$ to represent the probability that household $i$ exits homelessness in week $t$ if assigned intervention $j$.
+    \item Define $C_{jt}$ as the number of available slots for intervention $j$ in week $t$.
+  \end{itemize}
+
+  \item \textbf{Initial Optimization Problem:}
+  \begin{itemize}
+    \item Formulate and solve the optimization problem to maximize the sum of probabilities $p_{ijt}$ across all assignments, ensuring that each household is assigned to exactly one intervention per week, and the assignment does not exceed the available intervention slots.
+  \end{itemize}
+
+  \item \textbf{Incorporating Fairness:}
+  \begin{itemize}
+    \item Introduce weights to address potential disproportionate assignments across sub-populations.
+    \item Define $\alpha_g$ as the proportion of group $g$ in the total homeless population, based on historical data.
+    \item Calculate $\gamma_{gt^*}$, the proportion of group $g$ assigned to some treatment up to time $t^*$, and compare it with $\alpha_g$ to assess disproportionality.
+    \item Adjust the optimization objective to include a fairness term that penalizes or rewards assignments based on the difference between actual and expected proportions.
+  \end{itemize}
+
+  \section*{Execution, Evaluation, and Long-Term Monitoring}
+
+  \item \textbf{Weekly Optimization Execution:}
+  \begin{itemize}
+    \item Execute the optimization process weekly, adjusting the weights based on the previous weeks' results to improve fairness over time.
+  \end{itemize}
+
+  \item \textbf{Evaluation and Adjustment:}
+  \begin{itemize}
+    \item At the end of a predefined period, evaluate the outcomes in terms of both the number of successful exits from homelessness and fairness across sub-populations.
+    \item Adjust the weight ($C$) based on the evaluation to better balance the trade-off between maximizing successful exits and ensuring equitable treatment allocation.
+  \end{itemize}
+
+  \item \textbf{Long-term Implementation and Monitoring:}
+  \begin{itemize}
+    \item Implement the optimized assignment process as a standard operational procedure.
+    \item Continually monitor and adjust the weighting factor to respond to changes in the population or intervention effectiveness, ensuring ongoing optimization of both exit rates and fairness.
+  \end{itemize}
+\end{enumerate}
+
+\end{document}
