@@ -2,6 +2,7 @@
 """
 Created on Tue Feb 13 15:57:46 2024
 
+<<<<<<< HEAD
 @author: tgratz
 
 TO DO
@@ -10,6 +11,18 @@ CLEAN CODE
 MappingDictionaries
 One Hot Encoders
 
+=======
+@author: Trevor Gratz, trevormgratz@gmail.com
+
+This file assembles data from four primary intermediary data sources:
+    InterventionOutcomes_2024-04-18.pkl
+    HouseholdFeatures_2024-04-18.pkl
+    HouseholdLiteralHomelessnessHistory_2024-04-18.pkl
+    HeadofHousholdFeatures_2024-04-18.pkl
+
+It cleans the merged data and then performs a panel-based 80/20 train test
+split.
+>>>>>>> 5055f7fa5edbf2544cc7063c1bb85ba28724c693
 """
 import pandas as pd
 import numpy as np
@@ -18,10 +31,17 @@ import pickle
 from Dictionaries import remap
 
 # Load data
+<<<<<<< HEAD
 iodf = pd.read_pickle(r'..\..\..\Data\InterventionOutcomes_2024-02-29.pkl')
 hsdf = pd.read_pickle(r'..\..\..\Data\HouseholdFeatures_2024-02-29.pkl')
 lhhxdf = pd.read_pickle(r'..\..\..\Data\HouseholdLiteralHomelessnessHistory_2024-02-29.pkl') 
 hohdf = pd.read_pickle(r'..\..\..\Data\HeadOfHouseholdFeatures_2024-02-29.pkl')
+=======
+iodf = pd.read_pickle(r'..\..\..\Data\InterventionOutcomes_2024-04-18.pkl')
+hsdf = pd.read_pickle(r'..\..\..\Data\HouseholdFeatures_2024-04-18.pkl')
+lhhxdf = pd.read_pickle(r'..\..\..\Data\HouseholdLiteralHomelessnessHistory_2024-04-18.pkl') 
+hohdf = pd.read_pickle(r'..\..\..\Data\HeadofHousholdFeatures_2024-04-18.pkl')
+>>>>>>> 5055f7fa5edbf2544cc7063c1bb85ba28724c693
 
 # Globals
 today = date.today()
@@ -48,7 +68,13 @@ def mergefeatures(iodftemp, hohdftemp, hsdftemp, lhhxdftemp):
     adf = adf[['PersonalID', 'EnrollmentID', 'HouseholdID', 'RRH', 'TSH',
                'PSH', 'start_date', 'end_date', 'RRH_Entry',
                'TSH_Entry', 'PSH_Entry', 'success_730', 'success_365',
+<<<<<<< HEAD
                'success_180']]
+=======
+               'success_180', 'success_noexit_730', 'success_noexit_365',
+               'success_noexit_180', 'MoveInDate', 'RRH_Exit',
+               'TSH_Exit', 'PSH_Exit', 'ExitStatusName']]
+>>>>>>> 5055f7fa5edbf2544cc7063c1bb85ba28724c693
     
     adf = pd.merge(adf, hohdftemp, left_on=['PersonalID', 'EnrollmentID'],
                    right_on=['HoH_PersonalID', 'HoH_EnrollmentID'],
@@ -142,7 +168,11 @@ def cleanvarsbyrow(temp):
     # 7 less than 0, use child indicators (2 don't have any, use HoH Age then,
     # though this might be fixed in the new SQL, missed 3 years old exactly),
     # 3 have missing values (Use HOH_Age)
+<<<<<<< HEAD
     temp = temp.rename(columns={'Household_N_children15_18': 'Household_N_children15_17'}) # this is done in the SQL now, so once SQL rerun get rid of this rename
+=======
+    temp = temp.rename(columns={'Household_N_children15_18': 'Household_N_children15_17'}) 
+>>>>>>> 5055f7fa5edbf2544cc7063c1bb85ba28724c693
     for c in [('Household_N_children0_3', 1.5),
               ('Household_N_children3_5', 4),
               ('Household_N_children5_10', 7.5),
@@ -173,10 +203,30 @@ def cleanvarsbyrow(temp):
     temp['Household_HoursWorked'] = temp['Household_HoursWorked'].fillna(0)
     temp['HoH_EmployedHoursWorkedLastWeek'] = temp['HoH_EmployedHoursWorkedLastWeek'].fillna(0)
     
+<<<<<<< HEAD
     # HoH_EmployedHoursWorkedLastWeek, 
     # are skewed. For non-tree based models considered a log transform. 
     # Household_IncomeEarnedEntry, Household_IncomeNonEarnedEntry
 
+=======
+    # Log Transforms for skewed data
+    temp['ln_HoH_EmployedHoursWorkedLastWeek'] = np.log(temp['HoH_EmployedHoursWorkedLastWeek'] +1)
+    temp['ln_AverageLHEventsInPast12Months'] = np.log(temp['AverageLHEventsInPast12Months'] +1)          
+    temp['ln_N_Household'] = np.log(temp['N_Household'] +1)          
+    temp['ln_Household_N_Children'] = np.log(temp['Household_N_Children'] +1)                                               
+    
+    # Still have outliers throwing off convergence
+    temp['rmout_AverageLHEventsInPast12Months'] = temp['AverageLHEventsInPast12Months']
+    cut=temp['AverageLHEventsInPast12Months'].quantile(.99)
+    temp.loc[temp['AverageLHEventsInPast12Months'] > cut, 'rmout_AverageLHEventsInPast12Months'] = cut
+    temp['ln_rmout_AverageLHEventsInPast12Months'] = np.log(temp['rmout_AverageLHEventsInPast12Months'] +1)
+    
+    temp['rmout_HoH_EmployedHoursWorkedLastWeek'] = temp['HoH_EmployedHoursWorkedLastWeek']
+    cut=temp['HoH_EmployedHoursWorkedLastWeek'].quantile(.99)                                              
+    temp.loc[temp['HoH_EmployedHoursWorkedLastWeek'] > cut, 'rmout_HoH_EmployedHoursWorkedLastWeek'] = cut
+    temp['ln_rmout_HoH_EmployedHoursWorkedLastWeek'] = np.log(temp['rmout_HoH_EmployedHoursWorkedLastWeek'] +1)
+    
+>>>>>>> 5055f7fa5edbf2544cc7063c1bb85ba28724c693
     # Many Income and Benefits Categories are Sparse. Combine them into an
     # Other Group if any are present.
     temp['HoH_OtherIncomeCombined'] = '0' 
@@ -286,10 +336,46 @@ def cleanvarsbyrow(temp):
     for c in all_cat_vars:
         temp[c] = temp[c].astype(str)
 
+<<<<<<< HEAD
     return temp
 
 adf = cleanvarsbyrow(temp=adf)
     
+=======
+    temp.loc[temp['Household_MostRecentDomsticViolence'] =='nan', 'Household_MostRecentDomsticViolence'] = '0.0'
+    return temp
+
+adf = cleanvarsbyrow(temp=adf)
+
+# #############################################################################
+# Get "Intervention Dates"
+
+# intdates = adf.copy()
+# intdates = intdates.loc[~intdates['MoveInDate'].isna(),['RRH', 'TSH', 'PSH',
+#                                                         'RRH_Entry', 'TSH_Entry',
+#                                                         'PSH_Entry', 
+#                                                         'RRH_Exit', 'TSH_Exit',
+#                                                         'PSH_Exit','MoveInDate']].copy()
+# rrhdf = pd.DataFrame(intdates['RRH_Entry'])
+# rrhdf = rrhdf.dropna()
+# rrhdf['ProjectTypeName'] = 'PH - Rapid Re-Housing' 
+# rrhdf = rrhdf.rename(columns={'RRH_Entry': 'EnrollmentDate'})
+
+# pshdf = pd.DataFrame(intdates['PSH_Entry'])
+# pshdf = pshdf.dropna()
+# pshdf['ProjectTypeName'] = 'PH - Permanent Supportive Housing' 
+# pshdf = pshdf.rename(columns={'PSH_Entry': 'EnrollmentDate'})
+
+# tshdf = pd.DataFrame(intdates['TSH_Entry'])
+# tshdf = tshdf.dropna()
+# tshdf['ProjectTypeName'] = 'Transitional Housing' 
+# tshdf = tshdf.rename(columns={'TSH_Entry': 'EnrollmentDate'})
+
+# interdates = pd.concat([rrhdf, pshdf, tshdf])
+# interdates.to_csv(r'..\..\Code\prioritization\Exploratory\Archive\InterventionData_04182024.csv',
+#                   index=False)
+
+>>>>>>> 5055f7fa5edbf2544cc7063c1bb85ba28724c693
 ##############################################################################
 # Train Test Split, sample at the PersonalID level to handle the panel
 # structure of the data.

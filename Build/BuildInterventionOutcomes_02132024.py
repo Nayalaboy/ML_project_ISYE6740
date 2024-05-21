@@ -2,7 +2,11 @@
 """
 Created on Wed Jan 31 15:46:34 2024
 
+<<<<<<< HEAD
 @author: Trevor Gratz, trevor.gratz@piercecountwa.gov
+=======
+@author: Trevor Gratz, trevormgratz@gmail.com
+>>>>>>> 5055f7fa5edbf2544cc7063c1bb85ba28724c693
 
 The method to link interventions, outcomes, and coordinated entry events is
 detailed in the folling file.
@@ -19,13 +23,17 @@ HoH = Head of Household
 
 from InterventionOutcomes_SQL_02122024 import sql_ceevents, sql_ceinterventions, sql_literalhomeless, sql_ceeventsallpersons
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 5055f7fa5edbf2544cc7063c1bb85ba28724c693
 import pandas as pd
 import pyodbc
 from datetime import date, datetime
 import datetime as dtother
 import numpy as np
 
+<<<<<<< HEAD
 
 conn_str = (
     r'Driver=SQL Server;'
@@ -34,6 +42,9 @@ conn_str = (
     r'Trusted_Connection=yes;'
     )
 cnxn = pyodbc.connect(conn_str)
+=======
+cnxn = {'XXX'}
+>>>>>>> 5055f7fa5edbf2544cc7063c1bb85ba28724c693
 
 today = date.today()
 
@@ -364,6 +375,12 @@ def exitstatus(ceint=ceint):
 
     ceint.loc[cebool, 'ExitStatus'] = ceint.loc[cebool, 'ExitDestinationGroup']
     ceint.loc[ceintbool, 'ExitStatus'] = ceint.loc[ceintbool, 'LastIntExitDestinationGroup']
+<<<<<<< HEAD
+=======
+    
+    ceint.loc[cebool, 'ExitStatusName'] = ceint.loc[cebool, 'ExitDestinationName']
+    ceint.loc[ceintbool, 'ExitStatusName'] = ceint.loc[ceintbool, 'LastIntExitDestinationName']
+>>>>>>> 5055f7fa5edbf2544cc7063c1bb85ba28724c693
     return ceint
 
 
@@ -423,7 +440,14 @@ def defsuccess(temp, daystosuccess):
     '''
     Success is determined by an exit to a permanent destination without a reentry 
     since two years after exit. Days to success is a list of the number of 
+<<<<<<< HEAD
     days needed to be deemed a successful exit
+=======
+    days needed to be deemed a successful exit. A second definition of success
+    relies exclusively on whether or not a literal homelessness event occurs
+    after an exit, regardless of the exit type (exit type is frequently
+    unknown).
+>>>>>>> 5055f7fa5edbf2544cc7063c1bb85ba28724c693
     '''
     
     for d in daystosuccess:
@@ -432,9 +456,22 @@ def defsuccess(temp, daystosuccess):
                                  ((temp['LH_EnrollmentEntryDate'] - temp['end_date']).dt.days > d)
                                  )
                                 ).astype(int)
+<<<<<<< HEAD
         
         # Less than 2 years have passed since exit.
         temp.loc[(pd.to_datetime("now")-temp['end_date']).dt.days < d, f'success_{d}'] = np.nan
+=======
+
+        temp[f'success_noexit_{d}'] = (
+                                       ((temp['LH_EnrollmentEntryDate'].isna()) |
+                                        ((temp['LH_EnrollmentEntryDate'] - temp['end_date']).dt.days > d)
+                                        )
+                                       ).astype(int)        
+        # Less than 2 years have passed since exit.
+        temp.loc[(pd.to_datetime("now")-temp['end_date']).dt.days < d, f'success_{d}'] = np.nan
+        temp.loc[(pd.to_datetime("now")-temp['end_date']).dt.days < d, f'success_noexit_{d}'] = np.nan
+
+>>>>>>> 5055f7fa5edbf2544cc7063c1bb85ba28724c693
     return temp
 
 ceintlhsuc = defsuccess(temp=ceintlh.copy(), daystosuccess = [365*2, 365, 180])
@@ -451,4 +488,14 @@ ceintlhsuc.to_pickle(path)
 path = r'..\..\..\Data\CEInterventionSample_Outcomes.csv'
 ceint.to_csv(path)
 
+<<<<<<< HEAD
 #ceintlhsuc.loc[ceintlhsuc['start_date'].dt.year >= 2017, 'success'].value_counts()
+=======
+#ceintlhsuc.loc[ceintlhsuc['start_date'].dt.year >= 2017, 'success'].value_counts()
+
+# ((temp['LH_EnrollmentEntryDate'] - temp['end_date']).dt.days > d)
+
+# # 67% of exit destinations are unknown or other
+# ceintlhsuc['ExitStatusName'].value_counts(normalize=True)
+# ceintlhsuc['ExitStatus'].value_counts(normalize=True)
+>>>>>>> 5055f7fa5edbf2544cc7063c1bb85ba28724c693
