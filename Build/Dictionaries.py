@@ -1,16 +1,8 @@
-<<<<<<< HEAD
-# -*- coding: utf-8 -*-
-"""
-Created on Tue Feb 27 15:58:00 2024
-
-@author: tgratz
-=======
 
 """
 Created on Tue Feb 27 15:58:00 2024
 
 @author: Trevor Gratz, trevormgratz@gmail.com
->>>>>>> 5055f7fa5edbf2544cc7063c1bb85ba28724c693
 """
 # Remap if less than 100 obs or if categories are similar
 remap = {'HoH_GenderName': {'More than one gender reported':'Other_Missing',
@@ -34,16 +26,6 @@ remap = {'HoH_GenderName': {'More than one gender reported':'Other_Missing',
                                                   'Client prefers not to answer (HUD)':'None_Other_Missing',
                                                   "Client doesn't know (HUD)":'None_Other_Missing'},
          'Household_Education': {'nan': 'Missing_NoAnswer_DoesntKnow',
-<<<<<<< HEAD
-                                 '0.0': 'Missing_NoAnswer_DoesntKnow',
-                                 '1.0': 'Missing_NoAnswer_DoesntKnow',
-                                 '2.0': 'Missing_NoAnswer_DoesntKnow',
-                                 '3.0': 'Missing_NoAnswer_DoesntKnow',
-                                 '8.0': 'Missing_NoAnswer_DoesntKnow',
-                                 '4.0': 'Less than Grade 6',
-                                 '5.0': 'Less than Grade 6'},
-         'Household_MostRecentDomsticViolence' : {"NaN": '0.0'} 
-=======
                                  '0': 'Missing_NoAnswer_DoesntKnow',
                                  '1': 'Missing_NoAnswer_DoesntKnow',
                                  '2': 'Missing_NoAnswer_DoesntKnow',
@@ -54,14 +36,10 @@ remap = {'HoH_GenderName': {'More than one gender reported':'Other_Missing',
          'Household_MostRecentDomsticViolence' : {"NaN": '0.0',
                                                   None: '0.0',
                                                   1.0: '0.0'} 
->>>>>>> 5055f7fa5edbf2544cc7063c1bb85ba28724c693
          # Leaving HIVAID unchanged as the Yes category is near 100. No other 
          # healthconditions are similalry sparse, so no ability to 
          # reasonably combine them.
          
-<<<<<<< HEAD
-         }
-=======
          }
 
 
@@ -463,4 +441,3 @@ def ywoexmatch(yval, xlist):
     
     Xvars = [f'woe_{yval}_{x}' if x not in X_notCat_WOE else x for x in xlist]
     return Xvars
->>>>>>> 5055f7fa5edbf2544cc7063c1bb85ba28724c693

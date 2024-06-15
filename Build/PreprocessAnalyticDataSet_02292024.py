@@ -2,16 +2,12 @@
 """
 Created on Thu Feb 29 13:12:12 2024
 
-<<<<<<< HEAD
-@author: tgratz
-=======
 @author: Trevor Gratz, trevormgratz@gmail.com
 
 This file loads the training and testing data set aside in the 
 "BuildAnalyticDataSet_02142024.py" file and performs feature scaling 
 and encoding based on the training data values.
 
->>>>>>> 5055f7fa5edbf2544cc7063c1bb85ba28724c693
 """
 import pandas as pd
 import numpy as np
@@ -19,10 +15,7 @@ from datetime import date
 import pickle
 from sklearn.impute import SimpleImputer
 from sklearn.preprocessing import OneHotEncoder, StandardScaler
-<<<<<<< HEAD
-=======
 import category_encoders as ce
->>>>>>> 5055f7fa5edbf2544cc7063c1bb85ba28724c693
 
 ##############################################################################
 # Globals
@@ -37,15 +30,6 @@ all_cont_vars = ['HoH_AgeAtEntry', 'HoH_EmployedHoursWorkedLastWeek',
                  'Household_IncomeNonEarnedEntry',
                  'N_Household', 'Household_N_Children',
                  'Household_OldestClient',
-<<<<<<< HEAD
-                 'Household_YoungestClient', 'Household_HoursWorked']
-
-# Where is HoH_IncomeEarned_Entry? Checking. - Rerunning SQL pull.
-hoh_cont_vars = ['HoH_AgeAtEntry', 'HoH_EmployedHoursWorkedLastWeek',
-                 'AverageLHEventsInPast12Months',
-                 'AverageLHEventsInPast6Months',        
-                 'N_Household', 'Household_N_Children']
-=======
                  'Household_YoungestClient', 'Household_HoursWorked',
                  'ln_HoH_EmployedHoursWorkedLastWeek',
                  'ln_AverageLHEventsInPast12Months',
@@ -63,7 +47,6 @@ hoh_cont_vars = ['HoH_AgeAtEntry', 'HoH_EmployedHoursWorkedLastWeek',
                  'ln_N_Household', 'ln_Household_N_Children',
                  'ln_rmout_AverageLHEventsInPast12Months',
                  'ln_rmout_HoH_EmployedHoursWorkedLastWeek']
->>>>>>> 5055f7fa5edbf2544cc7063c1bb85ba28724c693
 
 household_cont_vars = ['AverageLHEventsInPast12Months',
                        'AverageLHEventsInPast6Months',
@@ -71,16 +54,12 @@ household_cont_vars = ['AverageLHEventsInPast12Months',
                        'Household_IncomeNonEarnedEntry',
                        'N_Household', 'Household_N_Children',
                        'Household_OldestClient',
-<<<<<<< HEAD
-                       'Household_YoungestClient', 'Household_HoursWorked']
-=======
                        'Household_YoungestClient', 'Household_HoursWorked',
                        'ln_HoH_EmployedHoursWorkedLastWeek',
                        'ln_AverageLHEventsInPast12Months',
                        'ln_N_Household', 'ln_Household_N_Children',
                        'ln_rmout_AverageLHEventsInPast12Months',
                        'ln_rmout_HoH_EmployedHoursWorkedLastWeek']
->>>>>>> 5055f7fa5edbf2544cc7063c1bb85ba28724c693
 
 all_cat_vars = ['HoH_LengthOfStayName', 'HoH_RaceName', 'HoH_EthnicityName',
                 'HoH_GenderName', 'HoH_SexualOrientationName',
@@ -171,10 +150,7 @@ household_cat_vars = ['HoH_LengthOfStayName', 'HoH_RaceName',
                       'Household_OtherIncomeCombined']
 
 keepvars = ['PersonalID', 'success_730', 'success_365', 'success_180',
-<<<<<<< HEAD
-=======
             'success_noexit_730', 'success_noexit_365', 'success_noexit_180',
->>>>>>> 5055f7fa5edbf2544cc7063c1bb85ba28724c693
             'RRH', 'TSH', 'PSH', 'HoH_RRH_Month_1',
             'HoH_RRH_Month_2', 'HoH_RRH_Month_3plus', 'HoH_TSH_Month_1',
             'HoH_TSH_Month_2', 'HoH_TSH_Month_3plus', 'HoH_PSH_Month_1',
@@ -184,14 +160,9 @@ keepvars = ['PersonalID', 'success_730', 'success_365', 'success_180',
 # Load Training data
 ##############################################################################
 
-<<<<<<< HEAD
-traindf = pd.read_pickle(dpath + r'\traindf_2024-03-01.pkl')
-print(traindf['HoH_Unemployment'].value_counts(dropna=False))
-=======
 traindf = pd.read_pickle(dpath + r'\traindf_2024-03-07.pkl')
 testdf = pd.read_pickle(dpath + r'\testdf_2024-03-07.pkl')
 
->>>>>>> 5055f7fa5edbf2544cc7063c1bb85ba28724c693
 ##############################################################################
 # Create Encoders and Save them
 ##############################################################################
@@ -210,11 +181,6 @@ def encodesave(temp, c):
     # enc.transform(temp[[c]].to_numpy())
     
   
-<<<<<<< HEAD
-for c in all_cat_vars:
-    
-    encodesave(temp=traindf, c=c)
-=======
 def WOEencodesave(temp, c, y):
     temp = temp.loc[~temp[y].isna(),]
     woe = ce.WOEEncoder()
@@ -232,7 +198,6 @@ for c in all_cat_vars:
               'success_noexit_730', 'success_noexit_365',
               'success_noexit_180']:
         WOEencodesave(temp=traindf.copy(), c=c, y=y)
->>>>>>> 5055f7fa5edbf2544cc7063c1bb85ba28724c693
 
 ###############################################################################
 # Get imputers
@@ -300,23 +265,17 @@ trainximputed = transformimputer(temp=traindf[['HoH_AgeAtEntry',
                                                'Household_OldestClient']],
                                  imputertuple=imputertuple)
 
-<<<<<<< HEAD
-=======
 testximputed = transformimputer(temp=testdf[['HoH_AgeAtEntry',
                                              'Household_YoungestClient',
                                              'Household_OldestClient']],
                                  imputertuple=imputertuple)
 
->>>>>>> 5055f7fa5edbf2544cc7063c1bb85ba28724c693
 # Replace original data
 for c in imputertuple[0]:
    # Check order SimpleImputer Returns data in
    #print((traindf[c].reset_index(drop=True) != trainximputed[c].reset_index(drop=True)).sum())    
    traindf[c] = trainximputed[c]
-<<<<<<< HEAD
-=======
    testdf[c] = testximputed[c]
->>>>>>> 5055f7fa5edbf2544cc7063c1bb85ba28724c693
 
 ##############################################################################
 # Get Scalers for continuous data
@@ -357,11 +316,7 @@ for c in all_cont_vars:
 # Build versions of the X, y data fully processed for modelling
 ##############################################################################
 
-<<<<<<< HEAD
-def buildXY(temp, keeplist=[], catlist=[], contlist=[]):
-=======
 def buildXY(temp, keeplist=[], catlist=[], contlist=[], catencodtype = 'OneHot'):
->>>>>>> 5055f7fa5edbf2544cc7063c1bb85ba28724c693
     '''
     The function takes data from in the format produced from the 
     'BuildAnalyticDataSet_02122024.py' file, lets the user select the 
@@ -425,10 +380,6 @@ def buildXY(temp, keeplist=[], catlist=[], contlist=[], catencodtype = 'OneHot')
     # encode the categorical data, and concatenate to X.
     if catlist:
         for c in catlist:
-<<<<<<< HEAD
-            epath = dpath + r'\\components\\Encoder' + f'_{c}.pkl'
-            enc = pickle.load(open(epath, 'rb'))
-=======
             
             # One Hot Encoding
             epath = dpath + r'\\components\\Encoder' + f'_{c}.pkl'
@@ -436,14 +387,11 @@ def buildXY(temp, keeplist=[], catlist=[], contlist=[], catencodtype = 'OneHot')
             
             # Unfortunately, these encoders were built with sklearn 1.2.2, 
             # will need to downgrade version to use.
->>>>>>> 5055f7fa5edbf2544cc7063c1bb85ba28724c693
             cols = list(enc.get_feature_names_out([c]))
             look = pd.DataFrame(enc.transform(temp[[c]].to_numpy()).toarray(),
                                 columns=cols)
             X = pd.concat([X, look], axis=1)
 
-<<<<<<< HEAD
-=======
             # WOE Encoding
             for y in ['success_730', 'success_365', 'success_180',
                       'success_noexit_730', 'success_noexit_365',
@@ -454,7 +402,6 @@ def buildXY(temp, keeplist=[], catlist=[], contlist=[], catencodtype = 'OneHot')
                 look = look.rename(columns={f'{c}': f'woe_{y}_{c}'})
                 X = pd.concat([X, look], axis=1)
 
->>>>>>> 5055f7fa5edbf2544cc7063c1bb85ba28724c693
     return X
 
 ##############################################################################
@@ -477,13 +424,10 @@ fulldf = buildXY(temp=traindf, keeplist=keepvars,
                  catlist=all_cat_vars,
                  contlist=all_cont_vars)
 
-<<<<<<< HEAD
-=======
 fulltestdf = buildXY(temp=testdf, keeplist=keepvars,
                  catlist=all_cat_vars,
                  contlist=all_cont_vars)
 
->>>>>>> 5055f7fa5edbf2544cc7063c1bb85ba28724c693
 
 hohdf = buildXY(temp=traindf, keeplist=keepvars,
                 catlist=hoh_cat_vars,
@@ -495,19 +439,13 @@ householddf = buildXY(temp=traindf, keeplist=keepvars,
 
 # Output
 fullpath = dpath + r'\\train_allfeatures_'+ f'_{today}.csv'
-<<<<<<< HEAD
-=======
 fulltestpath = dpath + r'\\test_allfeatures_'+ f'_{today}.csv'
 
->>>>>>> 5055f7fa5edbf2544cc7063c1bb85ba28724c693
 hohpath = dpath + r'\\train_hohfeatures_'+ f'_{today}.csv'
 householdpath = dpath + r'\\train_householdfeatures_'+ f'_{today}.csv'
 
 fulldf.to_csv(fullpath)
-<<<<<<< HEAD
-=======
 fulltestdf.to_csv(fulltestpath)
 
->>>>>>> 5055f7fa5edbf2544cc7063c1bb85ba28724c693
 hohdf.to_csv(hohpath)
 householddf.to_csv(householdpath)

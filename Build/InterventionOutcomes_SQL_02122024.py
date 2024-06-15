@@ -2,11 +2,7 @@
 """
 Created on Mon Feb 12 09:01:55 2024
 
-<<<<<<< HEAD
-@author: tgratz
-=======
 @author: Trevor Gratz, trevormgratz@gmail.com
->>>>>>> 5055f7fa5edbf2544cc7063c1bb85ba28724c693
 """
 
 sql_ceevents = '''
@@ -106,8 +102,6 @@ WHERE  e.Perspective ='Client' AND
            )
    )
 GROUP BY e.PersonalID, e.EnrollmentID, e.HouseholdID, e.EnrollmentEntryDate
-<<<<<<< HEAD
-=======
 '''
 
 sql_referrals = '''
@@ -120,5 +114,4 @@ WHERE r.ServiceProviderCreating IN ('Coordinated Entry - Priority Pool(402)',
   AND r.ServiceRefertoProviderProgramType IN ('PH - Permanent Supportive Housing',
                                               'PH - Rapid Re-Housing',
                                               'Transitional Housing')
->>>>>>> 5055f7fa5edbf2544cc7063c1bb85ba28724c693
 '''
